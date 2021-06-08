@@ -85,5 +85,23 @@
 			label = "UART_5";
 			status = "disabled";
 		};
+
+# Experimental
+		i2c0: i2cmst@8030E000 {
+			compatible = "gaisler,i2cmst";
+			interrupts = <13>;
+			reg = <0x8030E000 0x100>;
+			label = "I2C_0";
+			status = "okay";
+		};
+		
+# Experimental
+		i2c1: i2cmst@8030F000 {
+			compatible = "gaisler,i2cmst";
+			interrupts = <14>;
+			reg = <0x8030F000 0x100>;
+			label = "I2C_1";
+			status = "okay";
+		};
 	};
 };
