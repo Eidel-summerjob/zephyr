@@ -1,0 +1,10 @@
+description: GRLIB I2CMST
+
+compatible: "gaisler,i2cmst"
+
+include: i2c-controller.yaml
+
+properties:
+    reg:
+      type: array
+      required: true

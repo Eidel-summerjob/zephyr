@@ -86,21 +86,21 @@
 			status = "disabled";
 		};
 
-# Experimental
-		i2c0: i2cmst@8030E000 {
+		i2c0: i2cmst@8030e000 {
 			compatible = "gaisler,i2cmst";
-			interrupts = <13>;
-			reg = <0x8030E000 0x100>;
-			label = "I2C_0";
+			#address-cells = <1>;
+			#size-cells = <0>;
+			reg = <0x8030e000 0x100>;
+			label = "i2c0";
 			status = "okay";
 		};
 		
-# Experimental
-		i2c1: i2cmst@8030F000 {
+		i2c1: i2cmst@8030f000 {
 			compatible = "gaisler,i2cmst";
-			interrupts = <14>;
-			reg = <0x8030F000 0x100>;
-			label = "I2C_1";
+			#address-cells = <1>;
+			#size-cells = <0>;
+			reg = <0x8030f000 0x100>;
+			label = "i2c1";
 			status = "okay";
 		};
 	};
