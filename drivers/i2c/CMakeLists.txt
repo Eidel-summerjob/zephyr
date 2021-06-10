@@ -35,14 +35,6 @@ zephyr_library_sources_ifdef(CONFIG_I2C_DW		i2c_dw.c)
 
 zephyr_library_sources_ifdef(CONFIG_I2C_GR716		i2c_gr716.c)
 
-#set(ZEPHYR_EXTRA_MODULES ) 
-
-#zephyr_library()
-
-
-
-#zephyr_library_sources_ifdef(CONFIG_I2C_GR716		~/opt/bcc-2.2.0-gcc/sparc-gaisler-elf/lib/libdrv.a)
-
 zephyr_include_directories(
 	~/opt/bcc-2.2.0-gcc/sparc-gaisler-elf/include
 	~/opt/bcc-2.2.0-gcc/sparc-gaisler-elf/bsp/gr716/include
@@ -60,35 +52,6 @@ set_target_properties(bcc
 	 
 zephyr_link_libraries_ifdef(CONFIG_I2C_GR716 drv)
 zephyr_link_libraries_ifdef(CONFIG_I2C_GR716 bcc)
-
-#zephyr_library_include_directories(~/opt/bcc-2.2.0-gcc/sparc-gaisler-elf/include)
-#zephyr_library_include_directories(~/opt/bcc-2.2.0-gcc/sparc-gaisler-elf/bsp/gr716/include)
-
-#zephyr_compile_options(-I /home/magnus/opt/bcc-2.2.0-gcc/sparc-gaisler-elf/include)
-#zephyr_compile_options(-I /home/magnus/opt/bcc-2.2.0-gcc/sparc-gaisler-elf/bsp/gr716/include)
-#zephyr_compile_options(-I /home/magnus/eidel/zephyrproject/zephyr/lib/libc/minimal/include)
-
-#zephyr_compile_options(-L /home/magnus/opt/bcc-2.2.0-gcc/sparc-gaisler-elf/lib)
-#zephyr_compile_options()
-#zephyr_compile_options()
-
-
-
-#zephyr_library_import(
-#	drv
-#	~/opt/bcc-2.2.0-gcc/sparc-gaisler-elf/lib/libdrv.a
-#)
-
-#zephyr_ld_options(-L ~/opt/bcc-2.2.0-gcc/sparc-gaisler-elf/lib -ldrv)
-
-
-#zephyr_link_libraries(drv)
-
-#zephyr_library_import		(drv					~/opt/bcc-2.2.0-gcc/sparc-gaisler-elf/lib)
-#zephyr_link_libraries_ifdef (CONFIG_I2C_GR716		drv)
-#zephyr_link_interface_ifdef (CONFIG_I2C_GR716		~/opt/bcc-2.2.0-gcc/sparc-gaisler-elf/lib)
-#zephyr_library_link_libraries(drv)
-
 
 
 zephyr_library_sources_ifdef(CONFIG_I2C_STM32_V1
