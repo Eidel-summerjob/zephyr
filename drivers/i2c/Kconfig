@@ -41,6 +41,7 @@ source "drivers/i2c/Kconfig.litex"
 source "drivers/i2c/Kconfig.lpc11u6x"
 source "drivers/i2c/Kconfig.npcx"
 source "drivers/i2c/Kconfig.test"
+source "drivers/i2c/Kconfig.gr716"
 
 config I2C_INIT_PRIORITY
 	int "Init priority"
@@ -124,5 +125,11 @@ config I2C_RV32M1_LPI2C
 	depends on HAS_RV32M1_LPI2C && CLOCK_CONTROL
 	help
 	  Enable the RV32M1 LPI2C driver.
+
+config I2C_GR716
+	bool "GR716 I2C driver"
+	depends on SOC_SPARC_LEON
+	help
+	  Enable the GR716 I2C driver.
 
 endif # I2C

@@ -1,0 +1,9 @@
+# gr716 I2C support
+
+# Copyright (c) 2021, Eidel AS
+# SPDX-License-Identifier: Apache-2.0
+
+menuconfig I2C_GR716
+    bool "gr716 i2c drivers"
+    default y
+    depends on SOC_SPARC_LEON

@@ -33,6 +33,32 @@ zephyr_library_sources_ifdef(CONFIG_I2C_NPCX		i2c_npcx_controller.c)
 zephyr_library_sources_ifdef(CONFIG_I2C_NPCX		i2c_npcx_port.c)
 zephyr_library_sources_ifdef(CONFIG_I2C_DW		i2c_dw.c)
 
+zephyr_library_sources_ifdef(CONFIG_I2C_GR716		i2c_gr716.c)
+zephyr_library_import		(drv					~/opt/bcc-2.0.7-gcc/sparc-gaisler-elf/lib)
+zephyr_link_libraries_ifdef (CONFIG_I2C_GR716		drv)
+#zephyr_link_interface_ifdef (CONFIG_I2C_GR716		~/opt/bcc-2.0.7-gcc/sparc-gaisler-elf/lib)
+#zephyr_library_link_libraries(drv)
+
+
+zephyr_library_include_directories(~/opt/bcc-2.0.7-gcc/sparc-gaisler-elf/include)
+zephyr_library_include_directories(~/opt/bcc-2.0.7-gcc/sparc-gaisler-elf/bsp/gr716/include)
+
+#zephyr_library_import(libdrv ~/opt/bcc-2.0.7-gcc/sparc-gaisler-elf/lib/libdrv.a)
+
+#zephyr_library_cc_option(-L ~/opt/bcc-2.0.7-gcc/sparc-gaisler-elf/lib)
+
+
+# Add gr716.c file and link to libdrv.a
+# TODO: Change to keep add_library() and so on inside if-statement
+#include_directories(~/opt/bcc-2.0.7-gcc/sparc-gaisler-elf/bsp/gr716/include)
+
+#add_library(libdrv STATIC IMPORTED ~/opt/bcc-2.0.7-gcc/sparc-gaisler-elf/lib/libdrv.a)
+#set_target_properties(libdrv PROPERTIES IMPORTED_LOCATION ~/opt/bcc-2.0.7-gcc/sparc-gaisler-elf/lib/libdrv.a)
+
+#target_link_libraries(${CMAKE_PROJECT_NAME} ~/opt/bcc-2.0.7-gcc/sparc-gaisler-elf/lib/libdrv.a)
+
+#list(APPEND ZEPHYR_EXTRA_MODULES ~/opt/bcc-2.0.7-gcc/sparc-gaisler-elf/lib/libdrv.a)
+
 zephyr_library_sources_ifdef(CONFIG_I2C_STM32_V1
 	i2c_ll_stm32_v1.c
 	i2c_ll_stm32.c

@@ -25,6 +25,7 @@
 struct i2cmst_gr716a_config {
     int retries;
     int interrupt_enable;
+    int dev_no;
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -32,7 +33,7 @@ struct i2cmst_gr716a_config {
 ///////////////////////////////////////////////////////////////////////////////
 
 // TODO: No hardcode
-static struct i2cmst_priv devs[2];
+static struct i2cmst_priv *devs[2];
 
 ///////////////////////////////////////////////////////////////////////////////
 // Helper functions
@@ -42,10 +43,16 @@ static struct i2cmst_priv devs[2];
 // Driver API implementation
 ///////////////////////////////////////////////////////////////////////////////
 
+static int i2cmst_gr716_init(const struct device *dev)
+{
+    return i2cmst_autoinit();
+}
+
 static int i2cmst_gr716a_configure(const struct device *dev, uint32_t dev_config)
 {
-    // TODO: Get dev_no somehow
-    int dev_no = 0;
+    printk("In %s()\n", __func__);
+    struct i2cmst_gr716a_config *config = (struct i2cmst_gr716a_config *)(dev->config);
+    int dev_no = config->dev_no;
 
     if (!(I2C_MODE_MASTER & dev_config))
         return -EINVAL;
@@ -61,18 +68,13 @@ static int i2cmst_gr716a_configure(const struct device *dev, uint32_t dev_config
         break;
     
     default:
-        break;
-    }
-
-    if (!speed)
         return -EINVAL;
+    }
     
     int ten_bit_addr_enable = 0;
     if (I2C_MSG_ADDR_10_BITS & dev_config)
         ten_bit_addr_enable = 1;
     
-
-    i2cmst_autoinit();
     struct i2cmst_priv *i2cmst_dev = i2cmst_open(dev_no);
     if (!i2cmst_dev)
         return -1;
@@ -81,8 +83,6 @@ static int i2cmst_gr716a_configure(const struct device *dev, uint32_t dev_config
     ret = i2cmst_stop(i2cmst_dev);
     if (ret != DRV_OK)
         DEBUG(printk("Warning: i2cmst already stopped.\n");)
-
-    const struct i2c_gr716a_config *config = dev->config;
     
     ret = i2cmst_set_retries(i2cmst_dev, config->retries);
     if (ret != DRV_OK)
@@ -133,7 +133,7 @@ static int i2cmst_gr716a_transfer(const struct device *dev, struct i2c_msg *msgs
         if ((msgs[i].flags & I2C_MSG_RW_MASK) == I2C_MSG_READ)
             i2cmst_flags |= I2CMST_FLAGS_READ;
         else
-            i2cmst_flags |= I2CMST_FLAGS_WRITE;
+            i2cmst_flags |= !I2CMST_FLAGS_READ;
         
         int i2cmst_slave = addr;
         int i2cmst_length = msgs[i].len;
@@ -153,19 +153,16 @@ static int i2cmst_gr716a_transfer(const struct device *dev, struct i2c_msg *msgs
             .tail = &pkt,
         };
 
-        // TODO: Get this somehow
-        int dev_no = 0;
+        struct i2cmst_gr716a_config *config = (struct i2cmst_gr716a_config *)(dev->config);
+        
+        int dev_no = config->dev_no;
         struct i2cmst_priv *dev = devs[dev_no];
-        i2cmst_request(dev, &single_list);
-    }
-
-
-    
-
-
-    struct i2cmst_packet pkt = {
-        .next = NULL,
-        .flags = I2CMST_FLAGS_
+        int ret = i2cmst_request(dev, &single_list);
+        if (ret != DRV_OK)
+        {
+            DEBUG(printk("Error: i2cmst_request\n");)
+            return ret;
+        }
     }
 
     return 0;
@@ -179,6 +176,20 @@ static const struct i2c_driver_api i2c_gr716_driver_api = {
     .configure = i2cmst_gr716a_configure,
     .transfer = i2cmst_gr716a_transfer,
 };
+
+static struct i2cmst_packet packet;
+static struct i2cmst_gr716a_config config;
+
+DEVICE_DT_DEFINE(
+    DT_NODELABEL(i2c0),
+    i2cmst_gr716_init,
+    NULL,
+    &packet,
+    &config,
+    POST_KERNEL,
+    CONFIG_KERNEL_INIT_PRIORITY_DEVICE,
+    &i2c_gr716_driver_api,
+);
 
 #if DT_NODE_HAS_STATUS(DT_NODELABEL(i2c0), okay)
 // Fetch data from the DT_NODE into config struct using DT macros
