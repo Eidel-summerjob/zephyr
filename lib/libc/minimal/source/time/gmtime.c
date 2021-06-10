@@ -11,6 +11,7 @@
  */
 
 #include <time.h>
+#include <bits/restrict.h>
 
 /* A signed type with the representation of time_t without its
  * impliciations.

@@ -9,6 +9,7 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <sys/cbprintf.h>
+#include <bits/restrict.h>
 
 struct emitter {
 	char *ptr;

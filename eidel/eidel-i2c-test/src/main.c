@@ -7,6 +7,7 @@
 #include <errno.h>
 #include <zephyr.h>
 #include <sys/printk.h>
+#include <stdbool.h>
 
 #include <device.h>
 #include <drivers/i2c.h>

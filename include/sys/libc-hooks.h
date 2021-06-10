@@ -10,6 +10,7 @@
 #include <toolchain.h>
 #include <stdio.h>
 #include <stddef.h>
+#include <bits/restrict.h>
 
 /*
  * Private header for specifying accessory functions to the C library internals

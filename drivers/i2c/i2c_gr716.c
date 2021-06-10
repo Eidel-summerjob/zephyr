@@ -50,7 +50,6 @@ static int i2cmst_gr716_init(const struct device *dev)
 
 static int i2cmst_gr716a_configure(const struct device *dev, uint32_t dev_config)
 {
-    printk("In %s()\n", __func__);
     struct i2cmst_gr716a_config *config = (struct i2cmst_gr716a_config *)(dev->config);
     int dev_no = config->dev_no;
 

@@ -10,6 +10,7 @@
 #include <sys/libc-hooks.h>
 #include <syscall_handler.h>
 #include <string.h>
+#include <bits/restrict.h>
 
 static int _stdout_hook_default(int c)
 {

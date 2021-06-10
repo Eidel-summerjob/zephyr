@@ -9,6 +9,10 @@
 #include <string.h>
 #include <stdint.h>
 #include <sys/types.h>
+#include <bits/restrict.h>
+
+// Quick fix for include errors (see include/sys/types.h)
+typedef uintptr_t mem_word_t;
 
 /**
  *
