@@ -1,0 +1,3 @@
+[submodule "eidel/zephyr-gr716-libdrv-port"]
+	path = eidel/libdrv-port
+	url = https://github.com/Eidel-summerjob/zephyr-gr716-libdrv-port.git
