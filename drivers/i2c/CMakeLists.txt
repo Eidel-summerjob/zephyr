@@ -48,7 +48,7 @@ set_target_properties(drv
     /home/magnus/opt/bcc-2.2.0-gcc/sparc-gaisler-elf/lib/libdrv.a)
 set_target_properties(bcc
     PROPERTIES IMPORTED_LOCATION
-    /home/magnus/opt/bcc-2.2.0-gcc/sparc-gaisler-elf/lib/libc.a)
+    /home/magnus/opt/bcc-2.2.0-gcc/sparc-gaisler-elf/bsp/gr716/libbcc.a)
 	 
 zephyr_link_libraries_ifdef(CONFIG_I2C_GR716 drv)
 zephyr_link_libraries_ifdef(CONFIG_I2C_GR716 bcc)
