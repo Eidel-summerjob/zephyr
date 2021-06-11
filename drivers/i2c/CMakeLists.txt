@@ -33,15 +33,26 @@ zephyr_library_sources_ifdef(CONFIG_I2C_NPCX		i2c_npcx_controller.c)
 zephyr_library_sources_ifdef(CONFIG_I2C_NPCX		i2c_npcx_port.c)
 zephyr_library_sources_ifdef(CONFIG_I2C_DW		i2c_dw.c)
 
-zephyr_library_import		(drv					~/opt/bcc-2.0.7-gcc/sparc-gaisler-elf/lib)
 zephyr_library_sources_ifdef(CONFIG_I2C_GR716		i2c_gr716.c)
-zephyr_link_libraries_ifdef (CONFIG_I2C_GR716		drv)
-#zephyr_link_interface_ifdef (CONFIG_I2C_GR716		~/opt/bcc-2.0.7-gcc/sparc-gaisler-elf/lib)
-#zephyr_library_link_libraries(drv)
 
+zephyr_include_directories(
+	~/opt/bcc-2.2.0-gcc/sparc-gaisler-elf/include
+	~/opt/bcc-2.2.0-gcc/sparc-gaisler-elf/bsp/gr716/include
+)
 
-#zephyr_library_include_directories(~/opt/bcc-2.0.7-gcc/sparc-gaisler-elf/include)
-#zephyr_library_include_directories(~/opt/bcc-2.0.7-gcc/sparc-gaisler-elf/bsp/gr716/include)
+add_library(drv STATIC IMPORTED GLOBAL)
+add_library(bcc STATIC IMPORTED GLOBAL)
+
+set_target_properties(drv
+    PROPERTIES IMPORTED_LOCATION
+    /home/magnus/opt/bcc-2.2.0-gcc/sparc-gaisler-elf/lib/libdrv.a)
+set_target_properties(bcc
+    PROPERTIES IMPORTED_LOCATION
+    /home/magnus/opt/bcc-2.2.0-gcc/sparc-gaisler-elf/bsp/gr716/libbcc.a)
+	 
+zephyr_link_libraries_ifdef(CONFIG_I2C_GR716 drv)
+zephyr_link_libraries_ifdef(CONFIG_I2C_GR716 bcc)
+
 
 zephyr_library_sources_ifdef(CONFIG_I2C_STM32_V1
 	i2c_ll_stm32_v1.c
